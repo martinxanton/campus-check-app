@@ -1,7 +1,5 @@
 import 'package:camera/camera.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:material_segmented_control/material_segmented_control.dart';
 import 'package:campus_check_app/main.dart';
 import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
 
@@ -155,31 +153,6 @@ class _CameraScreenState extends State<CameraScreen> {
                     ),
                   ),
                 ),
-                /*
-                Padding(
-                  padding: const EdgeInsets.all(30.0),
-                  child: Container(
-                    alignment: Alignment.bottomCenter,
-                    child: MaterialSegmentedControl(
-                      children: _children,
-                      selectionIndex: _currentSelection,
-                      borderColor: Colors.black.withOpacity(0.6),
-                      selectedColor: Colors.white,
-                      unselectedColor: Colors.black.withOpacity(0.6),
-                      selectedTextStyle: const TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold),
-                      unselectedTextStyle: const TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                      borderWidth: 0.7,
-                      borderRadius: 32.0,
-                      onSegmentTapped: (index) {
-                        setState(() {
-                          _currentSelection = index;
-                        });
-                      },
-                    ),
-                  ),
-                ),*/
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Container(
@@ -307,47 +280,3 @@ class _ButtonFlashState extends State<ButtonFlash> {
 }
 
 
-
-
-/*
-class SingleChoice extends StatefulWidget {
-  const SingleChoice({super.key});
-
-  @override
-  State<SingleChoice> createState() => _SingleChoiceState();
-}
-
-class _SingleChoiceState extends State<SingleChoice> {
-  int selectedValue = 1;
-
-  void _onValueSelected(Set<int> value) {
-    setState(() {
-      selectedValue = value.first;
-    });
-  }
-
-  List<ButtonSegment<int>> _buttonSegments() {
-    return const [
-      ButtonSegment(
-          value: 1, label: Text('Entrada'), icon: Icon(Icons.login_rounded)),
-      ButtonSegment(
-          value: 2, label: Text('Salida'), icon: Icon(Icons.logout_rounded)),
-    ];
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        SegmentedButton(
-          segments: _buttonSegments(),
-          selected: {selectedValue},
-          onSelectionChanged: _onValueSelected,
-        )
-      ],
-    );
-  }
-}
-
-*/
