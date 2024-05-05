@@ -1,7 +1,9 @@
 import 'package:camera/camera.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:material_segmented_control/material_segmented_control.dart';
 import 'package:campus_check_app/main.dart';
+import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
 
 class CameraScreen extends StatefulWidget {
   const CameraScreen({super.key});
@@ -15,12 +17,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
   late final CameraController controller;
 
-  int _currentSelection = 0;
-
-  final Map<int, Widget> _children = {
-    0: const Text('      Entrada      '),
-    1: const Text('      Salida      ')
-  };
+  int _currentSelection = 1;
 
   void initializeCamera() async {
     final CameraController cameraController = CameraController(
@@ -112,6 +109,54 @@ class _CameraScreenState extends State<CameraScreen> {
                   ),
                 ),
                 Padding(
+                  padding: const EdgeInsets.all(60.0),
+                  child: Container(
+                    alignment: Alignment.bottomCenter,
+                    child: CustomSlidingSegmentedControl<int>(
+                      initialValue: 1,
+                      children: {
+                        1: Text('Entrada',
+                            style: TextStyle(
+                                color: _currentSelection == 1
+                                    ? Colors.black
+                                    : Colors.white)),
+                        2: Text('Salida',
+                            style: TextStyle(
+                                color: _currentSelection == 2
+                                    ? Colors.black
+                                    : Colors.white)),
+                      },
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.6),
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      thumbDecoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(50),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(.3),
+                            blurRadius: 4.0,
+                            spreadRadius: 1.0,
+                            offset: const Offset(
+                              0.0,
+                              2.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                      duration: const Duration(milliseconds: 200),
+                      curve: Curves.easeInToLinear,
+                      onValueChanged: (v) {
+                        setState(() {
+                          _currentSelection = v;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                /*
+                Padding(
                   padding: const EdgeInsets.all(30.0),
                   child: Container(
                     alignment: Alignment.bottomCenter,
@@ -134,7 +179,7 @@ class _CameraScreenState extends State<CameraScreen> {
                       },
                     ),
                   ),
-                ),
+                ),*/
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Container(

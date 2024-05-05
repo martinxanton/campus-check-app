@@ -60,7 +60,7 @@ class LoginPage extends StatelessWidget {
                         style: TextStyle(color: Colors.black54, fontSize: 18),
                         textAlign: TextAlign.left,
                       ),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 30),
                       TextField(
                         cursorColor: Colors.black38,
                         decoration: InputDecoration(
@@ -72,7 +72,7 @@ class LoginPage extends StatelessWidget {
                           labelStyle: const TextStyle(color: Colors.black45),
                         ),
                       ),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 20),
                       TextField(
                         cursorColor: Colors.black38,
                         obscureText: true,

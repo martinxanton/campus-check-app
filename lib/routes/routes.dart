@@ -1,7 +1,6 @@
 import 'package:campus_check_app/screens/camera.dart';
 import 'package:campus_check_app/screens/home.dart';
 import 'package:campus_check_app/screens/login.dart';
-import 'package:campus_check_app/screens/scanner_bar.dart';
 import 'package:campus_check_app/screens/user_profile.dart';
 import 'package:flutter/material.dart';
 
@@ -19,10 +18,6 @@ class Routes {
         return MaterialPageRoute(builder: (context) => const HomePage());
       case profile:
         return MaterialPageRoute(builder: (context) => const UserProfilePage());
-      case scannerbar:
-        return MaterialPageRoute(builder: (context) => const ScannerBarPage());
-      case scannerface:
-        return MaterialPageRoute(builder: (context) => const ScannerBarPage());
       case login:
         return MaterialPageRoute(builder: (context) => const LoginPage());
       case camera:
