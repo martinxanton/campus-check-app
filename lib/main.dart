@@ -1,7 +1,37 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:campus_check_app/home.dart';
+import 'package:campus_check_app/routes/routes.dart';
+
+/* List<CameraDescription> cameras = [];
+
+Future<void> main() async {
+  // Fetch the available cameras before initializing the app
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    cameras = await availableCameras();
+  } on CameraException catch (e) {
+    debugPrint('CameraError: ${e.description}');
+  }
+  runApp(const MyApp());
+}
 
 void main() {
+  runApp(const MyApp());
+}
+
+
+*/
+// Global variable for storing the list of cameras available
+List<CameraDescription> cameras = [];
+
+Future<void> main() async {
+  // Fetch the available cameras before initializing the app
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    cameras = await availableCameras();
+  } on CameraException catch (e) {
+    debugPrint('CameraError: ${e.description}');
+  }
   runApp(const MyApp());
 }
 
@@ -12,11 +42,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Campus Check',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        appBarTheme: const AppBarTheme(
+          centerTitle: true,
+          backgroundColor: Colors.white,
+          titleTextStyle: TextStyle(
+              color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+          iconTheme: IconThemeData(color: Colors.black),
+        ),
       ),
-      home: const HomePage(),
+      initialRoute: Routes.login,
+      onGenerateRoute: Routes.generateRoute,
     );
   }
 }
- 
