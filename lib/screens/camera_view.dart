@@ -98,14 +98,12 @@ class _CameraViewState extends State<CameraView> {
                           style: TextStyle(
                               color: _currentSelection == 1
                                   ? Colors.black
-                                  : Colors.white,
-                              fontSize: 16)),
+                                  : Colors.white)),
                       2: Text('Salida',
                           style: TextStyle(
                               color: _currentSelection == 2
                                   ? Colors.black
-                                  : Colors.white,
-                              fontSize: 16)),
+                                  : Colors.white)),
                     },
                     decoration: BoxDecoration(
                       color: Colors.black.withOpacity(0.6),

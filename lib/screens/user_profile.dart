@@ -18,14 +18,15 @@ class UserProfilePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text('Perfil'),
+        title: const Text(
+          'Perfil',
+        ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        iconTheme: const IconThemeData(color: Color(0xFF0061cc)),
       ),
       body: Container(
         color: Colors.white,
@@ -110,7 +111,10 @@ class UserProfilePage extends StatelessWidget {
                         ),
                         child: const ListTile(
                           leading: Icon(Icons.qr_code),
-                          title: Text('Código de alumno'),
+                          title: Text('Código de alumno',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(180, 0, 0, 0))),
                           subtitle: Text('20200127'),
                         ),
                       ),
@@ -123,7 +127,10 @@ class UserProfilePage extends StatelessWidget {
                         ),
                         child: const ListTile(
                           leading: Icon(Icons.perm_identity_outlined),
-                          title: Text('DNI'),
+                          title: Text('DNI',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(180, 0, 0, 0))),
                           subtitle: Text('72730417'),
                         ),
                       ),
@@ -136,7 +143,10 @@ class UserProfilePage extends StatelessWidget {
                         ),
                         child: const ListTile(
                           leading: Icon(Icons.school_outlined),
-                          title: Text('Facultad'),
+                          title: Text('Facultad',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(180, 0, 0, 0))),
                           subtitle: Text(
                               'Facultad de Ingeniería de Sistemas e Informática'),
                         ),
@@ -150,7 +160,10 @@ class UserProfilePage extends StatelessWidget {
                         ),
                         child: const ListTile(
                           leading: Icon(Icons.book_outlined),
-                          title: Text('Carrera'),
+                          title: Text('Carrera',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(180, 0, 0, 0))),
                           subtitle: Text('Ingeniería de Sistemas'),
                         ),
                       ),
@@ -168,7 +181,7 @@ class UserProfilePage extends StatelessWidget {
                           ),
                         ),
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            const Color(0xFF0061cc)),
+                            const Color(0xFF831216)),
                       ),
                       onPressed: () {
                         Navigator.pop(context);

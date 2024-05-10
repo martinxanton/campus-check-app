@@ -118,7 +118,7 @@ class LoginPage extends StatelessWidget {
                                         const Color(0xFF831216)),
                               ),
                               onPressed: () {
-                                Navigator.pop(context, Routes.home);
+                                Navigator.pushNamed(context, Routes.home);
                               },
                               child: const Text(
                                 'Iniciar sesion',

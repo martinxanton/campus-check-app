@@ -8,13 +8,17 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.white),
-        title:
-            const Text('Campus Check', style: TextStyle(color: Colors.white)),
-        backgroundColor: const Color(0xFF831216),
-      ),
+          backgroundColor: Colors.white,
+          title: const Text('Campus Check'),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          )),
       body: Container(
-        padding: const EdgeInsets.all(16),
+        color: Colors.white,
+        padding: const EdgeInsets.all(20),
         child: Column(
           children: [
             const Text(
@@ -22,30 +26,29 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 16),
             CardWidget(
               leftIcon: Icons.badge_outlined,
-              label: 'Escanear carnet',
-              onTap: () {
-                Navigator.pushNamed(context, Routes.camera);
-              },
-            ),
-            CardWidget(
-              leftIcon: Icons.badge_outlined,
-              label: 'Escanear DNI',
+              label: 'Escanear carnet / DNI',
               onTap: () {
                 Navigator.pushNamed(context, Routes.scannerbar);
               },
             ),
-            /*
-            CardWidget(
-              leftIcon: Icons.face_outlined,
-              label: 'Escanear rostro',
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const FaceIdPage()));
-              },
+            TextField(
+              cursorColor: Colors.black45,
+              decoration: InputDecoration(
+                focusedBorder:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                border: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.black45),
+                    borderRadius: BorderRadius.circular(10)),
+                labelText: 'Ingrese el código',
+                labelStyle: const TextStyle(color: Colors.black45),
+                suffixIcon: IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.profile);
+                  },
+                ),
+              ),
             ),
-            */
           ],
         ),
       ),
@@ -68,6 +71,7 @@ class CardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.white,
       margin: const EdgeInsets.only(bottom: 16),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),

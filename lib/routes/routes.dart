@@ -19,11 +19,8 @@ class Routes {
       case home:
         return MaterialPageRoute(builder: (context) => const HomePage());
       case profile:
-        return PageTransition(
-            child: const UserProfilePage(),
-            settings: settings,
-            type: PageTransitionType.bottomToTop,
-            duration: const Duration(milliseconds: 500));
+        return MaterialPageRoute(
+            builder: (context) => const UserProfilePage(), settings: settings);
       case login:
         return MaterialPageRoute(builder: (context) => const LoginPage());
       case camera:

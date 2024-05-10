@@ -31,10 +31,10 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.white,
           titleTextStyle: TextStyle(
               color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
-          iconTheme: IconThemeData(color: Colors.black),
+          iconTheme: IconThemeData(color: Color(0xFF831216)),
         ),
       ),
-      initialRoute: Routes.profile,
+      initialRoute: Routes.login,
       onGenerateRoute: Routes.generateRoute,
     );
   }
