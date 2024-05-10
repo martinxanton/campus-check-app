@@ -5,41 +5,182 @@ class UserProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Obtener el argumento pasado desde la ruta anterior
+    // ignore: unused_local_variable
+    String code = '';
+    final data = ModalRoute.of(context)?.settings.arguments;
+    if (data != null) {
+      code = (data as Map)['code'];
+    } else {
+      // ignore: avoid_print
+      print('No hay datos');
+    }
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Usuario Encontrado'),
+        backgroundColor: Colors.white,
+        title: const Text('Perfil'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        iconTheme: const IconThemeData(color: Color(0xFF0061cc)),
       ),
       body: Container(
-        padding: const EdgeInsets.all(16),
-        child: const Column(
+        color: Colors.white,
+        padding: const EdgeInsets.all(20),
+        child: Column(
           children: [
-            Icon(Icons.person, size: 100),
-            SizedBox(height: 16),
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Nombres'),
-              subtitle: Text('Jeff Oneil Magallanes Aguero'),
+            Container(
+              padding: const EdgeInsets.all(20),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(10, 0, 0, 0),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Stack(alignment: Alignment.center, children: [
+                      const CircleAvatar(
+                        radius: 60,
+                        backgroundImage:
+                            AssetImage('assets/images/photo_demo.jpg'),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        child: Container(
+                          padding: const EdgeInsets.only(
+                              left: 8, right: 8, top: 5, bottom: 5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.green,
+                          ),
+                          child: const Text(
+                            'ACTIVO',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.white,
+                              backgroundColor: Colors.green,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      )
+                    ]),
+                  ),
+                  const SizedBox(width: 20),
+                  const Expanded(
+                    flex: 3,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Jeff Oneil Magallanes Aguero',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold)),
+                        SizedBox(height: 3),
+                        Text('Estudiante',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black54,
+                                fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
-            ListTile(
-              leading: Icon(Icons.school),
-              title: Text('Facultad'),
-              subtitle:
-                  Text('Facultad de Ingenieria de Sistemas e Informatica'),
-            ),
-            ListTile(
-              leading: Icon(Icons.book),
-              title: Text('Carrera'),
-              subtitle: Text('Ingeniería de Software'),
-            ),
-            ListTile(
-              leading: Icon(Icons.science),
-              title: Text('Ciclo'),
-              subtitle: Text('IX'),
-            ),
-            ListTile(
-              leading: Icon(Icons.app_registration_rounded),
-              title: Text('Estado de Matricula'),
-              subtitle: Text('Suspendido'),
+            const SizedBox(height: 30),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black26),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: const ListTile(
+                          leading: Icon(Icons.qr_code),
+                          title: Text('Código de alumno'),
+                          subtitle: Text('20200127'),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Container(
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black26),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: const ListTile(
+                          leading: Icon(Icons.perm_identity_outlined),
+                          title: Text('DNI'),
+                          subtitle: Text('72730417'),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Container(
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black26),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: const ListTile(
+                          leading: Icon(Icons.school_outlined),
+                          title: Text('Facultad'),
+                          subtitle: Text(
+                              'Facultad de Ingeniería de Sistemas e Informática'),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Container(
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black26),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: const ListTile(
+                          leading: Icon(Icons.book_outlined),
+                          title: Text('Carrera'),
+                          subtitle: Text('Ingeniería de Sistemas'),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 56,
+                    width: double.infinity,
+                    child: FilledButton(
+                      style: ButtonStyle(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(13),
+                          ),
+                        ),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            const Color(0xFF0061cc)),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
+                        'Regristrar entrada',
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

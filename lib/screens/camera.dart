@@ -11,8 +11,6 @@ class CameraScreen extends StatefulWidget {
 }
 
 class _CameraScreenState extends State<CameraScreen> {
-  // Inside _CameraScreenState class
-
   late final CameraController controller;
 
   int _currentSelection = 1;
@@ -31,38 +29,6 @@ class _CameraScreenState extends State<CameraScreen> {
       setState(() {});
     });
   }
-
-/*
-  // Takes picture with the selected device camera, and
-// returns the image path
-  Future<String?> takePicture() async {
-    if (!controller.value.isInitialized) {
-      print("Controller is not initialized");
-      return null;
-    }
-
-    String? imagePath;
-
-    if (controller.value.isTakingPicture) {
-      print("Processing is in progress...");
-      return null;
-    }
-
-    try {
-      // Turning off the camera flash
-      controller.setFlashMode(FlashMode.off);
-      // Returns the image in cross-platform file abstraction
-      final XFile file = await controller.takePicture();
-      // Retrieving the path
-      imagePath = file.path;
-    } on CameraException catch (e) {
-      print("Camera Exception: $e");
-      return null;
-    }
-
-    return imagePath;
-  }
-*/
 
   @override
   void initState() {
@@ -131,17 +97,6 @@ class _CameraScreenState extends State<CameraScreen> {
                       thumbDecoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(50),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(.3),
-                            blurRadius: 4.0,
-                            spreadRadius: 1.0,
-                            offset: const Offset(
-                              0.0,
-                              2.0,
-                            ),
-                          ),
-                        ],
                       ),
                       duration: const Duration(milliseconds: 200),
                       curve: Curves.easeInToLinear,
@@ -221,8 +176,8 @@ class _ButtonZoomState extends State<ButtonZoom> {
         });
       },
       child: Container(
-        width: 40, // ajusta el tamaño según tus necesidades
-        height: 40, // ajusta el tamaño según tus necesidades
+        width: 40,
+        height: 40,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: isZoomed ? Colors.white : Colors.black.withOpacity(0.6),
@@ -278,5 +233,3 @@ class _ButtonFlashState extends State<ButtonFlash> {
     );
   }
 }
-
-

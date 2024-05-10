@@ -1,8 +1,10 @@
 import 'package:campus_check_app/screens/camera.dart';
+import 'package:campus_check_app/screens/camera_2.dart';
 import 'package:campus_check_app/screens/home.dart';
 import 'package:campus_check_app/screens/login.dart';
 import 'package:campus_check_app/screens/user_profile.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Routes {
   static const String home = '/';
@@ -17,11 +19,19 @@ class Routes {
       case home:
         return MaterialPageRoute(builder: (context) => const HomePage());
       case profile:
-        return MaterialPageRoute(builder: (context) => const UserProfilePage());
+        return PageTransition(
+            child: const UserProfilePage(),
+            settings: settings,
+            type: PageTransitionType.bottomToTop,
+            duration: const Duration(milliseconds: 500));
       case login:
         return MaterialPageRoute(builder: (context) => const LoginPage());
       case camera:
         return MaterialPageRoute(builder: (context) => const CameraScreen());
+      case scannerbar:
+        return MaterialPageRoute(
+            builder: (context) => const BarcodeScannerView(),
+            settings: settings);
       default:
         return MaterialPageRoute(
             builder: (context) => const Scaffold(
