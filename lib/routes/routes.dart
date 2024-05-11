@@ -4,7 +4,6 @@ import 'package:campus_check_app/screens/home.dart';
 import 'package:campus_check_app/screens/login.dart';
 import 'package:campus_check_app/screens/user_profile.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 
 class Routes {
   static const String home = '/';
