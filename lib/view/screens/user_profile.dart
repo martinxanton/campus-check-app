@@ -6,8 +6,6 @@ class UserProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    
     // Obtener el argumento pasado desde la ruta anterior
     final userModel =
         ModalRoute.of(context)?.settings.arguments as StudentModel?;
@@ -43,12 +41,12 @@ class UserProfilePage extends StatelessWidget {
         ),
       ),
       body: Container(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.background,
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(10),
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: const Color.fromARGB(10, 0, 0, 0),
@@ -121,7 +119,7 @@ class UserProfilePage extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 15),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
