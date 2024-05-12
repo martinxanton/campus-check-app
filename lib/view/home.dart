@@ -69,11 +69,11 @@ class CardWidget extends StatelessWidget {
   final VoidCallback onTap;
 
   const CardWidget({
-    Key? key,
+    super.key,
     required this.leftIcon,
     required this.label,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

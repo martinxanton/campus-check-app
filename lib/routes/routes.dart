@@ -6,11 +6,11 @@ import 'package:campus_check_app/view/screens/user_profile.dart';
 import 'package:flutter/material.dart';
 
 class Routes {
-  static const String home = '/';
+  static const String home = '/home';
   static const String profile = '/profile';
   static const String scannerbar = '/scannerbar';
   static const String scannerface = '/scannerface';
-  static const String login = '/login';
+  static const String login = '/';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
