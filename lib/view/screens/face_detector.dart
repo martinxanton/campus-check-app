@@ -22,8 +22,9 @@ class _FaceMeshDetectorViewState extends State<FaceMeshDetectorView> {
   bool _canProcess = true;
   bool _isBusy = false;
   CustomPaint? _customPaint;
+  // ignore: unused_field
   String? _text;
-  var _cameraLensDirection = CameraLensDirection.back;
+  final _cameraLensDirection = CameraLensDirection.back;
   @override
   void dispose() {
     _canProcess = false;
