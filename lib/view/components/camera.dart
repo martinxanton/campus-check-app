@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
+import 'package:lottie/lottie.dart';
 
 class CameraView extends StatefulWidget {
   const CameraView(
-      {Key? key,
+      {super.key,
       required this.customPaint,
       required this.onImage,
       this.onCameraFeedReady,
       this.onDetectorViewModeChanged,
       this.onCameraLensDirectionChanged,
-      this.initialCameraLensDirection = CameraLensDirection.back})
-      : super(key: key);
+      this.initialCameraLensDirection = CameraLensDirection.back});
 
   final CustomPaint? customPaint;
   final Function(InputImage inputImage) onImage;
@@ -87,6 +87,9 @@ class _CameraViewState extends State<CameraView> {
                       child: widget.customPaint,
                     ),
                   )),
+              Center(
+                  child: Lottie.asset('assets/animations/scan.json',
+                      width: size.width)),
               Padding(
                 padding: const EdgeInsets.all(40.0),
                 child: Container(
