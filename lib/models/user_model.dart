@@ -1,15 +1,9 @@
 class UserModel {
+  String docID;
   String name;
-  String faculty;
-  String career;
-  String stateEnrollment;
-  int semester;
 
   UserModel({
+    required this.docID,
     required this.name,
-    required this.faculty,
-    required this.career,
-    required this.stateEnrollment,
-    required this.semester,
   });
 }

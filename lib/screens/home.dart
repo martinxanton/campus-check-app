@@ -31,6 +31,13 @@ class HomePage extends StatelessWidget {
                 Navigator.pushNamed(context, Routes.scannerbar);
               },
             ),
+            CardWidget(
+              leftIcon: Icons.face_outlined,
+              label: 'Escanear rostro',
+              onTap: () {
+                Navigator.pushNamed(context, Routes.scannerface);
+              },
+            ),
             TextField(
               cursorColor: Colors.black45,
               decoration: InputDecoration(

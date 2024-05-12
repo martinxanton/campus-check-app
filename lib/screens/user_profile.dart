@@ -1,20 +1,34 @@
+import 'package:campus_check_app/models/student_model.dart';
 import 'package:flutter/material.dart';
 
 class UserProfilePage extends StatelessWidget {
-  const UserProfilePage({super.key});
+  const UserProfilePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    
     // Obtener el argumento pasado desde la ruta anterior
-    // ignore: unused_local_variable
-    String code = '';
-    final data = ModalRoute.of(context)?.settings.arguments;
-    if (data != null) {
-      code = (data as Map)['code'];
+    final userModel =
+        ModalRoute.of(context)?.settings.arguments as StudentModel?;
+
+    String enrollmentText = '';
+    Color enrollmentColor = Colors.red;
+
+    if (userModel?.stateEnrollment == 1) {
+      enrollmentText = 'Matriculado';
+      enrollmentColor = Colors.green; // Color para el estado 1
+    } else if (userModel?.stateEnrollment == 2) {
+      enrollmentText = 'Suspendido';
+      enrollmentColor = Colors.grey; // Color para el estado 2
+    } else if (userModel?.stateEnrollment == 3) {
+      enrollmentText = 'Egresado';
+      enrollmentColor = Colors.orange; // Color para el estado 3
     } else {
-      // ignore: avoid_print
-      print('No hay datos');
+      enrollmentText = 'No disponible';
+      enrollmentColor = Colors.red; // Color predeterminado para otros estados
     }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -45,51 +59,62 @@ class UserProfilePage extends StatelessWidget {
                 children: [
                   Expanded(
                     flex: 2,
-                    child: Stack(alignment: Alignment.center, children: [
-                      const CircleAvatar(
-                        radius: 60,
-                        backgroundImage:
-                            AssetImage('assets/images/photo_demo.jpg'),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        child: Container(
-                          padding: const EdgeInsets.only(
-                              left: 8, right: 8, top: 5, bottom: 5),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.green,
-                          ),
-                          child: const Text(
-                            'ACTIVO',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.white,
-                              backgroundColor: Colors.green,
-                              fontWeight: FontWeight.bold,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image(
+                              image: NetworkImage(userModel?.photoURL ??
+                                  'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'),
                             ),
                           ),
                         ),
-                      )
-                    ]),
+                        Positioned(
+                          bottom: 0,
+                          child: Container(
+                            padding: const EdgeInsets.only(
+                                left: 8, right: 8, top: 5, bottom: 5),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: enrollmentColor,
+                            ),
+                            child: Text(
+                              enrollmentText,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                   const SizedBox(width: 20),
-                  const Expanded(
+                  Expanded(
                     flex: 3,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Jeff Oneil Magallanes Aguero',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold)),
-                        SizedBox(height: 3),
-                        Text('Estudiante',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black54,
-                                fontWeight: FontWeight.bold)),
+                        Text(
+                          userModel?.name ?? 'Nombre',
+                          textAlign: TextAlign.left,
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 3),
+                        const Text(
+                          'Estudiante',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ],
                     ),
                   )
@@ -103,70 +128,19 @@ class UserProfilePage extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black26),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: const ListTile(
-                          leading: Icon(Icons.qr_code),
-                          title: Text('Código de alumno',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(180, 0, 0, 0))),
-                          subtitle: Text('20200127'),
-                        ),
-                      ),
+                      _buildUserInfoTile(const Icon(Icons.qr_code_outlined),
+                          'Código de alumno', userModel?.code),
                       const SizedBox(height: 10),
-                      Container(
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black26),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: const ListTile(
-                          leading: Icon(Icons.perm_identity_outlined),
-                          title: Text('DNI',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(180, 0, 0, 0))),
-                          subtitle: Text('72730417'),
-                        ),
-                      ),
+                      _buildUserInfoTile(
+                          const Icon(Icons.perm_identity_outlined),
+                          'DNI',
+                          userModel?.docID),
                       const SizedBox(height: 10),
-                      Container(
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black26),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: const ListTile(
-                          leading: Icon(Icons.school_outlined),
-                          title: Text('Facultad',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(180, 0, 0, 0))),
-                          subtitle: Text(
-                              'Facultad de Ingeniería de Sistemas e Informática'),
-                        ),
-                      ),
+                      _buildUserInfoTile(const Icon(Icons.school_outlined),
+                          'Facultad', userModel?.faculty),
                       const SizedBox(height: 10),
-                      Container(
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black26),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: const ListTile(
-                          leading: Icon(Icons.book_outlined),
-                          title: Text('Carrera',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(180, 0, 0, 0))),
-                          subtitle: Text('Ingeniería de Sistemas'),
-                        ),
-                      ),
+                      _buildUserInfoTile(const Icon(Icons.book_outlined),
+                          'Carrera', userModel?.career),
                     ],
                   ),
                   SizedBox(
@@ -197,6 +171,27 @@ class UserProfilePage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildUserInfoTile(Icon icon, String title, String? subtitle) {
+    return Container(
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.black26),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: ListTile(
+        leading: icon,
+        title: Text(
+          title,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Color.fromARGB(180, 0, 0, 0),
+          ),
+        ),
+        subtitle: Text(subtitle ?? 'No disponible'),
       ),
     );
   }
