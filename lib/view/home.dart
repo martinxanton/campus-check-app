@@ -1,11 +1,17 @@
+import 'dart:convert';
+
+import 'package:campus_check_app/models/student_model.dart';
 import 'package:campus_check_app/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController _controller = TextEditingController();
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
@@ -39,6 +45,7 @@ class HomePage extends StatelessWidget {
               },
             ),
             TextField(
+              controller: _controller,
               cursorColor: Colors.black45,
               decoration: InputDecoration(
                 focusedBorder:
@@ -50,8 +57,37 @@ class HomePage extends StatelessWidget {
                 labelStyle: const TextStyle(color: Colors.black45),
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.search),
-                  onPressed: () {
-                    Navigator.pushNamed(context, Routes.profile);
+                  onPressed: () async {
+                    String text = _controller.text.trim();
+                    String responseJson = '';
+                    if (text == '20200133') {
+                      responseJson = await rootBundle
+                          .loadString('assets/json/20200133.json');
+                    } else if (text == '20200137') {
+                      responseJson = await rootBundle
+                          .loadString('assets/json/20200137.json');
+                    } else if (text == '20200012') {
+                      responseJson = await rootBundle
+                          .loadString('assets/json/20200012.json');
+                    } else if (text == '20200054') {
+                      responseJson = await rootBundle
+                          .loadString('assets/json/20200054.json');
+                    } else if (text == '20200297') {
+                      responseJson = await rootBundle
+                          .loadString('assets/json/20200297.json');
+                    }
+                    final userData = json.decode(responseJson);
+                    Navigator.pushNamed(context, Routes.profile,
+                        arguments: StudentModel(
+                          code: userData['code'],
+                          docID: userData['docID'],
+                          name: userData['name'],
+                          faculty: userData['faculty'],
+                          career: userData['career'],
+                          stateEnrollment: userData['stateEnrollment'],
+                          semester: userData['semester'],
+                          photoURL: userData['photoURL'],
+                        ));
                   },
                 ),
               ),

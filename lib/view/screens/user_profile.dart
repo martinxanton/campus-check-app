@@ -6,6 +6,8 @@ class UserProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    
     // Obtener el argumento pasado desde la ruta anterior
     final userModel =
         ModalRoute.of(context)?.settings.arguments as StudentModel?;
