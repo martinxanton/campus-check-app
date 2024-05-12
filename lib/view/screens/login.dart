@@ -8,7 +8,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            color: const Color(0xFF831216),
+            color: Theme.of(context).colorScheme.primary,
             child: Column(
               children: [
                 Expanded(
@@ -115,7 +115,7 @@ class LoginPage extends StatelessWidget {
                                 ),
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
-                                        const Color(0xFF831216)),
+                                        Theme.of(context).colorScheme.primary),
                               ),
                               onPressed: () {
                                 Navigator.pushNamed(context, Routes.home);
@@ -138,9 +138,9 @@ class LoginPage extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(13),
                                     ),
                                   ),
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          const Color(0xFF831216)),
+                                  backgroundColor: MaterialStateProperty.all<
+                                          Color>(
+                                      Theme.of(context).colorScheme.primary),
                                 ),
                                 onPressed: () {
                                   Navigator.pushNamed(context, Routes.home);
@@ -177,7 +177,7 @@ class _CheckBoxRemenberState extends State<CheckBoxRemenber> {
     return Checkbox(
         value: isChecked,
         checkColor: Colors.white,
-        activeColor: const Color(0xFF831216),
+        activeColor: Theme.of(context).colorScheme.primary,
         onChanged: (value) {
           setState(() {
             isChecked = value!;

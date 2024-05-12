@@ -1,4 +1,6 @@
 import 'package:camera/camera.dart';
+import 'package:campus_check_app/theme/dark_theme.dart';
+import 'package:campus_check_app/theme/light_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:campus_check_app/routes/routes.dart';
 
@@ -24,16 +26,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Campus Check',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        appBarTheme: const AppBarTheme(
-          centerTitle: true,
-          backgroundColor: Colors.white,
-          titleTextStyle: TextStyle(
-              color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
-          iconTheme: IconThemeData(color: Color(0xFF831216)),
-        ),
-      ),
+      theme: lightTheme,
+      darkTheme: darkTheme,
       initialRoute: Routes.login,
       onGenerateRoute: Routes.generateRoute,
     );

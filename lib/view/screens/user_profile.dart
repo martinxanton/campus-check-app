@@ -2,12 +2,10 @@ import 'package:campus_check_app/models/student_model.dart';
 import 'package:flutter/material.dart';
 
 class UserProfilePage extends StatelessWidget {
-  const UserProfilePage({Key? key}) : super(key: key);
+  const UserProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-
-    
     // Obtener el argumento pasado desde la ruta anterior
     final userModel =
         ModalRoute.of(context)?.settings.arguments as StudentModel?;

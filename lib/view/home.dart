@@ -7,6 +7,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
           backgroundColor: Colors.white,
           title: const Text('Campus Check'),
@@ -17,7 +18,6 @@ class HomePage extends StatelessWidget {
             },
           )),
       body: Container(
-        color: Colors.white,
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
@@ -44,8 +44,8 @@ class HomePage extends StatelessWidget {
                 focusedBorder:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                 border: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.black45),
-                    borderRadius: BorderRadius.circular(10)),
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(color: Colors.black45)),
                 labelText: 'Ingrese el código',
                 labelStyle: const TextStyle(color: Colors.black45),
                 suffixIcon: IconButton(
@@ -83,7 +83,7 @@ class CardWidget extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
         side: const BorderSide(
-          color: Colors.black45,
+          color: Colors.black87,
           width: 1.0,
         ),
       ),
