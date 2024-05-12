@@ -175,7 +175,7 @@ class UserProfilePage extends StatelessWidget {
 
   Widget _buildUserInfoTile(Icon icon, String title, String? subtitle) {
     return Container(
-      padding: const EdgeInsets.all(5),
+      padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black26),
         borderRadius: BorderRadius.circular(15),

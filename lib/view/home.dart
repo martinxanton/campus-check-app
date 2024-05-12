@@ -45,6 +45,7 @@ class HomePage extends StatelessWidget {
               },
             ),
             TextField(
+              keyboardType: TextInputType.number,
               controller: _controller,
               cursorColor: Colors.black45,
               decoration: InputDecoration(
