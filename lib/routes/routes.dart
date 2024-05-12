@@ -1,8 +1,8 @@
-import 'package:campus_check_app/screens/bardcode_scanner.dart';
-import 'package:campus_check_app/screens/face_detector.dart';
-import 'package:campus_check_app/screens/home.dart';
-import 'package:campus_check_app/screens/login.dart';
-import 'package:campus_check_app/screens/user_profile.dart';
+import 'package:campus_check_app/view/screens/bardcode_scanner.dart';
+import 'package:campus_check_app/view/screens/face_detector.dart';
+import 'package:campus_check_app/view/home.dart';
+import 'package:campus_check_app/view/screens/login.dart';
+import 'package:campus_check_app/view/screens/user_profile.dart';
 import 'package:flutter/material.dart';
 
 class Routes {

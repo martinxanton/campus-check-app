@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:camera/camera.dart';
-import 'package:campus_check_app/screens/camera.dart';
-import 'package:campus_check_app/painters/face_mesh_detector_painter.dart';
+import 'package:campus_check_app/view/components/camera.dart';
+import 'package:campus_check_app/view/painters/face_mesh_detector_painter.dart';
 import 'package:campus_check_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';

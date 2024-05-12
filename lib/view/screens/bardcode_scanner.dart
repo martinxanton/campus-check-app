@@ -4,7 +4,7 @@ import 'package:campus_check_app/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
-import 'package:campus_check_app/screens/camera.dart';
+import 'package:campus_check_app/view/components/camera.dart';
 
 class BarcodeScannerView extends StatefulWidget {
   const BarcodeScannerView({super.key});

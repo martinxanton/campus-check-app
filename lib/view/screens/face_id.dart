@@ -1,4 +1,4 @@
-import 'package:campus_check_app/screens/user_profile.dart';
+import 'package:campus_check_app/view/screens/user_profile.dart';
 import 'package:flutter/material.dart';
 
 class FaceIdPage extends StatelessWidget {
