@@ -1,4 +1,7 @@
 import 'package:campus_check_app/routes/routes.dart';
+import 'package:campus_check_app/view/components/button.dart';
+import 'package:campus_check_app/view/components/checkbox.dart';
+import 'package:campus_check_app/view/components/textfield.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
@@ -61,35 +64,14 @@ class LoginPage extends StatelessWidget {
                         textAlign: TextAlign.left,
                       ),
                       const SizedBox(height: 30),
-                      TextField(
-                        cursorColor: Colors.black38,
-                        decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(13)),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(13)),
-                          labelText: 'Usuario',
-                          labelStyle: const TextStyle(color: Colors.black45),
-                        ),
-                      ),
+                      const TextFieldCustom(label: 'Usuario'),
                       const SizedBox(height: 20),
-                      TextField(
-                        cursorColor: Colors.black38,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(13)),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(13)),
-                          labelText: 'Contraseña',
-                          labelStyle: const TextStyle(color: Colors.black45),
-                        ),
-                      ),
+                      const TextFieldCustom(label: 'Contraseña', obscure: true),
                       const SizedBox(height: 5),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          const CheckBoxRemenber(),
+                          const CheckBoxCustom(),
                           TextButton(
                             onPressed: () {},
                             child: const Text(
@@ -103,53 +85,24 @@ class LoginPage extends StatelessWidget {
                       Row(
                         children: [
                           Expanded(
-                              child: SizedBox(
-                            height: 56,
-                            child: FilledButton(
-                              style: ButtonStyle(
-                                shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(13),
-                                  ),
-                                ),
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Theme.of(context).colorScheme.primary),
-                              ),
-                              onPressed: () {
-                                Navigator.pushNamed(context, Routes.home);
-                              },
-                              child: const Text(
-                                'Iniciar sesion',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
+                              child: CustomButton(
+                            child: const Text(
+                              'Iniciar sesion',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18),
                             ),
+                            onPressed: () =>
+                                Navigator.pushNamed(context, Routes.home),
                           )),
                           const SizedBox(width: 10),
-                          SizedBox(
-                              height: 56,
-                              child: FilledButton(
-                                style: ButtonStyle(
-                                  shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(13),
-                                    ),
-                                  ),
-                                  backgroundColor: MaterialStateProperty.all<
-                                          Color>(
-                                      Theme.of(context).colorScheme.primary),
-                                ),
-                                onPressed: () {
-                                  Navigator.pushNamed(context, Routes.home);
-                                },
-                                child: const Icon(
-                                  Icons.fingerprint,
-                                  color: Colors.white,
-                                ),
-                              )),
+                          CustomButton(
+                            child: const Icon(
+                              Icons.fingerprint,
+                              color: Colors.white,
+                            ),
+                            onPressed: () =>
+                                Navigator.pushNamed(context, Routes.home),
+                          ),
                         ],
                       ),
                     ],
@@ -157,31 +110,5 @@ class LoginPage extends StatelessWidget {
                 ),
               ],
             )));
-  }
-}
-
-class CheckBoxRemenber extends StatefulWidget {
-  const CheckBoxRemenber({
-    super.key,
-  });
-
-  @override
-  State<CheckBoxRemenber> createState() => _CheckBoxRemenberState();
-}
-
-class _CheckBoxRemenberState extends State<CheckBoxRemenber> {
-  bool isChecked = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Checkbox(
-        value: isChecked,
-        checkColor: Colors.white,
-        activeColor: Theme.of(context).colorScheme.primary,
-        onChanged: (value) {
-          setState(() {
-            isChecked = value!;
-          });
-        });
   }
 }

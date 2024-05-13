@@ -1,4 +1,5 @@
 import 'package:campus_check_app/models/student_model.dart';
+import 'package:campus_check_app/view/components/button.dart';
 import 'package:flutter/material.dart';
 
 class UserProfilePage extends StatelessWidget {
@@ -141,28 +142,18 @@ class UserProfilePage extends StatelessWidget {
                           'Carrera', userModel?.career),
                     ],
                   ),
-                  SizedBox(
-                    height: 56,
-                    width: double.infinity,
-                    child: FilledButton(
-                      style: ButtonStyle(
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(13),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CustomButton(
+                          child: const Text(
+                            'Regristrar entrada',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
                           ),
+                          onPressed: () => Navigator.pop(context),
                         ),
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            const Color(0xFF831216)),
                       ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text(
-                        'Regristrar entrada',
-                        style: TextStyle(color: Colors.white, fontSize: 18),
-                      ),
-                    ),
+                    ],
                   ),
                 ],
               ),
