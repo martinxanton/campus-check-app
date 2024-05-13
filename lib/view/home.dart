@@ -1,16 +1,18 @@
-import 'dart:convert';
+// ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
 import 'package:campus_check_app/models/student_model.dart';
 import 'package:campus_check_app/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:campus_check_app/view/components/dialog.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _controller = TextEditingController();
+    TextEditingController controller = TextEditingController();
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -44,39 +46,82 @@ class HomePage extends StatelessWidget {
                 Navigator.pushNamed(context, Routes.scannerface);
               },
             ),
-            TextField(
-              keyboardType: TextInputType.number,
-              controller: _controller,
-              cursorColor: Colors.black45,
-              decoration: InputDecoration(
-                focusedBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.black45)),
-                labelText: 'Ingrese el código',
-                labelStyle: const TextStyle(color: Colors.black45),
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.search),
-                  onPressed: () async {
-                    String text = _controller.text.trim();
-                    String responseJson = '';
-                    if (text == '20200133') {
-                      responseJson = await rootBundle
-                          .loadString('assets/json/20200133.json');
-                    } else if (text == '20200137') {
-                      responseJson = await rootBundle
-                          .loadString('assets/json/20200137.json');
-                    } else if (text == '20200012') {
-                      responseJson = await rootBundle
-                          .loadString('assets/json/20200012.json');
-                    } else if (text == '20200054') {
-                      responseJson = await rootBundle
-                          .loadString('assets/json/20200054.json');
-                    } else if (text == '20200297') {
-                      responseJson = await rootBundle
-                          .loadString('assets/json/20200297.json');
-                    }
+            CodeTextField(controller: controller),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CodeTextField extends StatefulWidget {
+  const CodeTextField({
+    super.key,
+    required this.controller,
+  });
+
+  final TextEditingController controller;
+
+  @override
+  State<CodeTextField> createState() => _CodeTextFieldState();
+}
+
+class _CodeTextFieldState extends State<CodeTextField> {
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      keyboardType: TextInputType.number,
+      onChanged: (value) {
+        // Cuando cambie el texto en el TextField, actualiza el estado del widget.
+        setState(() {});
+      },
+      controller: widget.controller,
+      cursorColor: Colors.black45,
+      decoration: InputDecoration(
+        focusedBorder:
+            OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(color: Colors.black45)),
+        labelText: 'Ingrese el código',
+        labelStyle: const TextStyle(color: Colors.black45),
+        suffixIcon: IconButton(
+          icon: const Icon(Icons.search),
+          onPressed: widget.controller.text.isEmpty ||
+                  widget.controller.text.length < 8
+              ? null // Si el TextField está vacío, deshabilita el botón.
+              : () async {
+                  String text = widget.controller.text.trim();
+                  String responseJson = '';
+                  bool isSucess = true;
+                  if (text == '20200133') {
+                    responseJson = await rootBundle
+                        .loadString('assets/json/20200133.json');
+                  } else if (text == '20200137') {
+                    responseJson = await rootBundle
+                        .loadString('assets/json/20200137.json');
+                  } else if (text == '20200012') {
+                    responseJson = await rootBundle
+                        .loadString('assets/json/20200012.json');
+                  } else if (text == '20200054') {
+                    responseJson = await rootBundle
+                        .loadString('assets/json/20200054.json');
+                  } else if (text == '20200297') {
+                    responseJson = await rootBundle
+                        .loadString('assets/json/20200297.json');
+                  } else {
+                    isSucess = false;
+                  }
+
+                  if (isSucess == false) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const DialogBox();
+                      },
+                    );
+                    return;
+                  } else {
                     final userData = json.decode(responseJson);
                     Navigator.pushNamed(context, Routes.profile,
                         arguments: StudentModel(
@@ -89,11 +134,8 @@ class HomePage extends StatelessWidget {
                           semester: userData['semester'],
                           photoURL: userData['photoURL'],
                         ));
-                  },
-                ),
-              ),
-            ),
-          ],
+                  }
+                },
         ),
       ),
     );
