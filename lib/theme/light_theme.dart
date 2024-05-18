@@ -14,8 +14,8 @@ ThemeData lightTheme = ThemeData(
     primary: Color(0xFF831216),
     secondary: Color(0xFF831216),
     error: Color(0xFFB00020),
-    onPrimary: Colors.white,
-    onSecondary: Colors.white,
+    onPrimary: Colors.black,
+    onSecondary: Colors.black54,
     onError: Colors.white,
   ),
 );

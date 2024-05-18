@@ -1,11 +1,53 @@
 import 'package:campus_check_app/routes/routes.dart';
+import 'package:campus_check_app/services/storage_service.dart';
 import 'package:campus_check_app/view/components/button.dart';
-import 'package:campus_check_app/view/components/checkbox.dart';
 import 'package:campus_check_app/view/components/textfield.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final StorageService _storageService = StorageService();
+  bool _rememberMe = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedUserName();
+    _loadRememberMe();
+  }
+
+  void _loadSavedUserName() async {
+    final savedUserName = await _storageService.getUserName();
+    if (savedUserName != null) {
+      _usernameController.text = savedUserName;
+    }
+  }
+
+  void _loadRememberMe() async {
+    final rememberMe = await _storageService.getRememberMe();
+    setState(() {
+      _rememberMe = rememberMe;
+    });
+  }
+
+  void _onRememberMeChanged(bool value) {
+    setState(() {
+      _storageService.saveRememberMe(_rememberMe);
+      if (_rememberMe) {
+        _storageService.saveUserName(_usernameController.text);
+      } else {
+        _storageService.saveUserName('');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +66,7 @@ class LoginPage extends StatelessWidget {
                               Image(
                                   image: AssetImage('assets/images/unmsm.png'),
                                   width: 80,
-                                  fit: BoxFit.contain,
-                                  color: Colors.white,
-                                  colorBlendMode: BlendMode.srcIn),
+                                  fit: BoxFit.contain),
                               SizedBox(width: 10),
                               Text(
                                 'Campus Check',
@@ -39,9 +79,9 @@ class LoginPage extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.only(
                       top: 35, bottom: 20, left: 30, right: 30),
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.background,
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(30),
                         topRight: Radius.circular(30),
                       )),
@@ -49,35 +89,53 @@ class LoginPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         'Bienvenido de nuevo',
                         style: TextStyle(
-                          color: Colors.black87,
+                          color: Theme.of(context).colorScheme.onPrimary,
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
                         ),
                         textAlign: TextAlign.left,
                       ),
-                      const Text(
+                      Text(
                         'Inicia sesión para continuar',
-                        style: TextStyle(color: Colors.black54, fontSize: 18),
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSecondary,
+                            fontSize: 18),
                         textAlign: TextAlign.left,
                       ),
                       const SizedBox(height: 30),
-                      const TextFieldCustom(label: 'Usuario'),
+                      TextFieldCustom(
+                        label: 'Usuario',
+                        controller: _usernameController,
+                      ),
                       const SizedBox(height: 20),
-                      const TextFieldCustom(label: 'Contraseña', obscure: true),
+                      TextFieldCustom(
+                        label: 'Contraseña',
+                        obscure: true,
+                        controller: _passwordController,
+                      ),
                       const SizedBox(height: 5),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          const CheckBoxCustom(),
-                          TextButton(
-                            onPressed: () {},
-                            child: const Text(
-                              'Recuerdame',
-                              style: TextStyle(color: Colors.black54),
-                            ),
+                          Checkbox(
+                              value: _rememberMe,
+                              checkColor: Colors.white,
+                              activeColor:
+                                  Theme.of(context).colorScheme.primary,
+                              onChanged: (value) {
+                                setState(() {
+                                  _rememberMe = value!;
+                                  _onRememberMeChanged(_rememberMe);
+                                });
+                              }),
+                          Text(
+                            'Recuerdame',
+                            style: TextStyle(
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary),
                           ),
                         ],
                       ),

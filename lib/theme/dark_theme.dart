@@ -4,18 +4,18 @@ ThemeData darkTheme = ThemeData(
   useMaterial3: true,
   appBarTheme: const AppBarTheme(
     centerTitle: true,
-    backgroundColor: Colors.white,
+    backgroundColor: Color(0xFF212124),
     titleTextStyle: TextStyle(
-        color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
-    iconTheme: IconThemeData(color: Color(0xFF831216)),
+        color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+    iconTheme: IconThemeData(color: Colors.white),
   ),
   colorScheme: const ColorScheme.dark(
-    background: Color(0xFF121212),
+    background: Color(0xFF212124),
     primary: Color(0xFF831216),
     secondary: Color(0xFF831216),
     error: Color(0xFFB00020),
     onPrimary: Colors.white,
-    onSecondary: Colors.white,
+    onSecondary: Colors.white60,
     onError: Colors.white,
   ),
 );

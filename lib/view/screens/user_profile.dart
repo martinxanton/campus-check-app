@@ -30,7 +30,6 @@ class UserProfilePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
         title: const Text(
           'Perfil',
         ),
@@ -128,18 +127,19 @@ class UserProfilePage extends StatelessWidget {
                   Column(
                     children: [
                       _buildUserInfoTile(const Icon(Icons.qr_code_outlined),
-                          'Código de alumno', userModel?.code),
+                          'Código de alumno', userModel?.code, context),
                       const SizedBox(height: 10),
                       _buildUserInfoTile(
                           const Icon(Icons.perm_identity_outlined),
                           'DNI',
-                          userModel?.docID),
+                          userModel?.docID,
+                          context),
                       const SizedBox(height: 10),
                       _buildUserInfoTile(const Icon(Icons.school_outlined),
-                          'Facultad', userModel?.faculty),
+                          'Facultad', userModel?.faculty, context),
                       const SizedBox(height: 10),
                       _buildUserInfoTile(const Icon(Icons.book_outlined),
-                          'Carrera', userModel?.career),
+                          'Carrera', userModel?.career, context),
                     ],
                   ),
                   Row(
@@ -164,20 +164,21 @@ class UserProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildUserInfoTile(Icon icon, String title, String? subtitle) {
+  Widget _buildUserInfoTile(
+      Icon icon, String title, String? subtitle, BuildContext? context) {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.black26),
+        border: Border.all(color: Theme.of(context!).colorScheme.onPrimary),
         borderRadius: BorderRadius.circular(15),
       ),
       child: ListTile(
         leading: icon,
         title: Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: Color.fromARGB(180, 0, 0, 0),
+            color: Theme.of(context).colorScheme.onPrimary,
           ),
         ),
         subtitle: Text(subtitle ?? 'No disponible'),

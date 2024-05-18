@@ -18,7 +18,6 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-          backgroundColor: Colors.white,
           title: const Text('Campus Check'),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new),
@@ -142,4 +141,3 @@ class _CodeTextFieldState extends State<CodeTextField> {
     );
   }
 }
-
