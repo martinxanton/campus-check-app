@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
-
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -16,12 +15,41 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
   final StorageService _storageService = StorageService();
   bool _rememberMe = false;
+  String? _usernameError;
+  String? _passwordError;
 
   @override
   void initState() {
     super.initState();
     _loadSavedUserName();
     _loadRememberMe();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void _validateUsername() {
+    setState(() {
+      final username = _usernameController.text;
+      if (username.contains(' ')) {
+        _usernameError = 'No pueden haber espacios';
+      } else {
+        _usernameError = null;
+      }
+    });
+  }
+
+  void _validatePassword() {
+    setState(() {
+      final password = _passwordController.text;
+      if (password.contains(' ')) {
+        _passwordError = 'No pueden haber espacios';
+      } else {
+        _passwordError = null;
+      }
+    });
   }
 
   void _loadSavedUserName() async {
@@ -40,6 +68,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void _onRememberMeChanged(bool value) {
     setState(() {
+      _rememberMe = value;
       _storageService.saveRememberMe(_rememberMe);
       if (_rememberMe) {
         _storageService.saveUserName(_usernameController.text);
@@ -47,6 +76,40 @@ class _LoginPageState extends State<LoginPage> {
         _storageService.saveUserName('');
       }
     });
+  }
+
+  void _onLogin() {
+    _validateUsername();
+    _validatePassword();
+    final username = _usernameController.text;
+    final password = _passwordController.text;
+
+    if (username.isEmpty) {
+      _usernameError = 'Campo obligatorio';
+    }
+    if (password.isEmpty) {
+      _passwordError = 'Campo obligatorio';
+    }
+    if (_usernameError == null && _passwordError == null) {
+      if (username == 'admin' && password == 'admin') {
+        Navigator.pushNamed(context, Routes.home);
+      } else {
+        // Show error dialog
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text('Error'),
+                content: const Text('Usuario y/o contraseña incorrectos'),
+                actions: [
+                  TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Aceptar'))
+                ],
+              );
+            });
+      }
+    }
   }
 
   @override
@@ -109,14 +172,17 @@ class _LoginPageState extends State<LoginPage> {
                       TextFieldCustom(
                         label: 'Usuario',
                         controller: _usernameController,
+                        errorText: _usernameError,
+                        onChanged: (p0) => _validateUsername(),
                       ),
                       const SizedBox(height: 20),
                       TextFieldCustom(
                         label: 'Contraseña',
                         obscure: true,
                         controller: _passwordController,
+                        errorText: _passwordError,
+                        onChanged: (p0) => _validatePassword(),
                       ),
-                      const SizedBox(height: 5),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -139,18 +205,17 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 25),
+                      const SizedBox(height: 20),
                       Row(
                         children: [
                           Expanded(
                               child: CustomButton(
                             child: const Text(
-                              'Iniciar sesion',
+                              'Iniciar sesión',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 18),
                             ),
-                            onPressed: () =>
-                                Navigator.pushNamed(context, Routes.home),
+                            onPressed: () => _onLogin(),
                           )),
                           const SizedBox(width: 10),
                           CustomButton(
