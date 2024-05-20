@@ -20,22 +20,18 @@ class TextFieldCustom extends StatelessWidget {
     return TextField(
       onChanged: onChanged,
       controller: controller,
-      cursorColor: Theme.of(context).colorScheme.onSecondary,
       obscureText: obscure,
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(13),
         ),
         enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(13),
-            borderSide:
-                BorderSide(color: Theme.of(context).colorScheme.onSecondary)),
+          borderRadius: BorderRadius.circular(13),
+        ),
         focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(13),
-            borderSide:
-                BorderSide(color: Theme.of(context).colorScheme.onPrimary)),
+          borderRadius: BorderRadius.circular(13),
+        ),
         labelText: label,
-        labelStyle: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
         errorText: errorText,
       ),
     );

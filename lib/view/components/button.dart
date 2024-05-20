@@ -20,8 +20,6 @@ class CustomButton extends StatelessWidget {
                 borderRadius: BorderRadius.circular(13),
               ),
             ),
-            backgroundColor: MaterialStateProperty.all<Color>(
-                Theme.of(context).colorScheme.primary),
           ),
           onPressed: onPressed,
           child: child),

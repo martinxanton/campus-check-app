@@ -16,7 +16,6 @@ class HomePage extends StatelessWidget {
     TextEditingController controller = TextEditingController();
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
           title: const Text('Campus Check'),
           leading: IconButton(
@@ -76,15 +75,11 @@ class _CodeTextFieldState extends State<CodeTextField> {
         setState(() {});
       },
       controller: widget.controller,
-      cursorColor: Colors.black45,
       decoration: InputDecoration(
         focusedBorder:
             OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: const BorderSide(color: Colors.black45)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         labelText: 'Ingrese el código',
-        labelStyle: const TextStyle(color: Colors.black45),
         suffixIcon: IconButton(
           icon: const Icon(Icons.search),
           onPressed: widget.controller.text.isEmpty ||
