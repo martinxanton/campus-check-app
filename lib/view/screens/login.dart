@@ -188,8 +188,10 @@ class _LoginPageState extends State<LoginPage> {
                         checkColor: Colors.white,
                         onChanged: (value) {
                           setState(() {
-                            _rememberMe = value!;
-                            _onRememberMeChanged(_rememberMe);
+                            if (_usernameController.text.isNotEmpty) {
+                              _rememberMe = value!;
+                              _onRememberMeChanged(_rememberMe);
+                            }
                           });
                         }),
                     const Text(
