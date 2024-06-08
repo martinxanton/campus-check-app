@@ -111,9 +111,7 @@ class UserProfilePage extends StatelessWidget {
                           'Estudiante',
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black54,
-                              fontWeight: FontWeight.bold),
+                              fontSize: 16, fontWeight: FontWeight.w500),
                         ),
                       ],
                     ),
@@ -171,7 +169,7 @@ class UserProfilePage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        border: Border.all(color: Theme.of(context!).colorScheme.onPrimary),
+        border: Border.all(color: Theme.of(context!).colorScheme.secondary),
         borderRadius: BorderRadius.circular(15),
       ),
       child: ListTile(
@@ -180,7 +178,7 @@ class UserProfilePage extends StatelessWidget {
           title,
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.onPrimary,
+            color: Theme.of(context).colorScheme.secondary,
           ),
         ),
         subtitle: Text(subtitle ?? 'No disponible'),
