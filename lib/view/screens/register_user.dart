@@ -12,8 +12,11 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Register User'),
-      ),
+          centerTitle: true,
+          title: const Text(
+            'Registrat Usuario',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          )),
       body: const Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
