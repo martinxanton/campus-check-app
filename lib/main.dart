@@ -29,7 +29,6 @@ class MyApp extends StatelessWidget {
         createTextTheme(context, "Albert Sans", "Albert Sans");
     MaterialTheme theme = MaterialTheme(textTheme);
     return MaterialApp(
-      title: 'Campus Check',
       debugShowCheckedModeBanner: false,
       theme: brightness == Brightness.light ? theme.light() : theme.dark(),
       initialRoute: Routes.login,

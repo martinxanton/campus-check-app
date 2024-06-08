@@ -17,12 +17,10 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-          title: const Text('Campus Check'),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+          centerTitle: true,
+          title: const Text(
+            'Campus Check',
+            style: TextStyle(fontWeight: FontWeight.bold),
           )),
       body: Container(
         padding: const EdgeInsets.all(20),

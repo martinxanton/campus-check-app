@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'package:campus_check_app/routes/routes.dart';
 import 'package:campus_check_app/services/storage_service.dart';
 import 'package:campus_check_app/view/components/button.dart';
 import 'package:campus_check_app/view/components/textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -21,6 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+    _validateLogin();
     _loadSavedUserName();
     _loadRememberMe();
   }
@@ -28,6 +31,15 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void dispose() {
     super.dispose();
+  }
+
+  void _validateLogin() {
+    _storageService.getToken().then((token) {
+      if (token != null) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, Routes.home, (route) => false);
+      }
+    });
   }
 
   void _validateUsername() {
@@ -78,24 +90,48 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  void _onLogin() {
+  Future<void> _onLogin() async {
     _validateUsername();
     _validatePassword();
     final username = _usernameController.text;
     final password = _passwordController.text;
 
     if (username.isEmpty) {
-      _usernameError = 'Campo obligatorio';
+      setState(() {
+        _usernameError = 'Campo obligatorio';
+      });
     }
     if (password.isEmpty) {
-      _passwordError = 'Campo obligatorio';
+      setState(() {
+        _passwordError = 'Campo obligatorio';
+      });
     }
     if (_usernameError == null && _passwordError == null) {
-      if (username == 'admin' && password == 'admin') {
-        Navigator.pushNamed(context, Routes.home);
+      final response = await http.post(
+        Uri.parse('http://192.168.18.36:5050/api/v1/staff/login'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'user': username,
+          'password': password,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final token = data['token'];
+
+        await _storageService.saveToken(token);
+        if (mounted) {
+          // Navigate to home page
+          Navigator.pushNamedAndRemoveUntil(
+              context, Routes.home, (route) => false);
+        }
       } else {
-        // Show error dialog
-        showDialog(
+        if (mounted) {
+          // Show error dialog
+          showDialog(
             context: context,
             builder: (context) {
               return AlertDialog(
@@ -103,11 +139,14 @@ class _LoginPageState extends State<LoginPage> {
                 content: const Text('Usuario y/o contraseña incorrectos'),
                 actions: [
                   TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text('Aceptar'))
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Aceptar'),
+                  ),
                 ],
               );
-            });
+            },
+          );
+        }
       }
     }
   }
