@@ -1,28 +1,59 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:convert';
 import 'package:campus_check_app/models/student_model.dart';
 import 'package:campus_check_app/routes/routes.dart';
+import 'package:campus_check_app/utils/utils.dart';
 import 'package:campus_check_app/view/components/card_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:campus_check_app/view/components/dialog.dart';
+import 'package:campus_check_app/services/storage_service.dart';
+import 'package:http/http.dart' as http;
 
-class HomePage extends StatelessWidget {
+final StorageService _storageService = StorageService();
+
+Future<Map<String, dynamic>?> fetchPersonData(String id, String token) async {
+  final url = 'http://192.168.18.36:5050/api/v1/student/$id';
+
+  try {
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to load person data');
+    }
+  } catch (e) {
+    printIfDebug('Error fetching person data: $e');
+    return null;
+  }
+}
+
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    TextEditingController controller = TextEditingController();
+  State<HomePage> createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
+  final TextEditingController _idController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          centerTitle: true,
-          title: const Text(
-            'Campus Check',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          )),
-      body: Container(
+        centerTitle: true,
+        title: const Text(
+          'Campus Check',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
@@ -43,7 +74,7 @@ class HomePage extends StatelessWidget {
                 Navigator.pushNamed(context, Routes.scannerface);
               },
             ),
-            CodeTextField(controller: controller),
+            CodeTextField(controller: _idController),
           ],
         ),
       ),
@@ -64,14 +95,42 @@ class CodeTextField extends StatefulWidget {
 }
 
 class _CodeTextFieldState extends State<CodeTextField> {
+  Future<void> _search() async {
+    String id = widget.controller.text.trim();
+    if (id.isEmpty || id.length < 8) return;
+
+    String token = await _storageService.getToken() ?? '';
+    var personData = await fetchPersonData(id, token);
+
+    if (personData != null) {
+      Navigator.pushNamed(
+        context,
+        Routes.profile,
+        arguments: StudentModel(
+          code: personData['student']['cod'],
+          docID: personData['person']['dni'],
+          name: personData['person']['firstName'],
+          faculty: personData['student']['faculty'],
+          career: personData['student']['career'],
+          stateEnrollment: 1,
+          semester: 0,
+          photoURL: personData['student']['image'],
+        ),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return const DialogBox();
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextField(
       keyboardType: TextInputType.number,
-      onChanged: (value) {
-        // Cuando cambie el texto en el TextField, actualiza el estado del widget.
-        setState(() {});
-      },
       controller: widget.controller,
       decoration: InputDecoration(
         focusedBorder:
@@ -80,57 +139,12 @@ class _CodeTextFieldState extends State<CodeTextField> {
         labelText: 'Ingrese el código',
         suffixIcon: IconButton(
           icon: const Icon(Icons.search),
-          onPressed: widget.controller.text.isEmpty ||
-                  widget.controller.text.length < 8
-              ? null // Si el TextField está vacío, deshabilita el botón.
-              : () async {
-                  String text = widget.controller.text.trim();
-                  String responseJson = '';
-                  bool isSucess = true;
-                  if (text == '20200133') {
-                    responseJson = await rootBundle
-                        .loadString('assets/json/20200133.json');
-                  } else if (text == '20200137') {
-                    responseJson = await rootBundle
-                        .loadString('assets/json/20200137.json');
-                  } else if (text == '20200012') {
-                    responseJson = await rootBundle
-                        .loadString('assets/json/20200012.json');
-                  } else if (text == '20200054') {
-                    responseJson = await rootBundle
-                        .loadString('assets/json/20200054.json');
-                  } else if (text == '20200297') {
-                    responseJson = await rootBundle
-                        .loadString('assets/json/20200297.json');
-                  } else {
-                    isSucess = false;
-                  }
-
-                  if (isSucess == false) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return const DialogBox();
-                      },
-                    );
-                    return;
-                  } else {
-                    final userData = json.decode(responseJson);
-                    Navigator.pushNamed(context, Routes.profile,
-                        arguments: StudentModel(
-                          code: userData['code'],
-                          docID: userData['docID'],
-                          name: userData['name'],
-                          faculty: userData['faculty'],
-                          career: userData['career'],
-                          stateEnrollment: userData['stateEnrollment'],
-                          semester: userData['semester'],
-                          photoURL: userData['photoURL'],
-                        ));
-                  }
-                },
+          onPressed: _search,
         ),
       ),
+      onChanged: (value) {
+        setState(() {});
+      },
     );
   }
 }
