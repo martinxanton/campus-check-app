@@ -93,8 +93,13 @@ class _BarcodeScannerViewState extends State<BarcodeScannerView> {
             var personData = await fetchPersonData(id, token);
             if (mounted) {
               if (personData != null) {
-                Navigator.pushNamed(context, Routes.profile,
-                    arguments: StudentModel(
+                var args =
+                    ModalRoute.of(context)!.settings.arguments as String? ?? '';
+                Navigator.pushNamed(
+                  context,
+                  Routes.profile,
+                  arguments: {
+                    'studentModel': StudentModel(
                       code: personData['student']['cod'],
                       docID: personData['person']['dni'],
                       name: personData['person']['firstName'],
@@ -103,7 +108,10 @@ class _BarcodeScannerViewState extends State<BarcodeScannerView> {
                       stateEnrollment: 1,
                       semester: 0,
                       photoURL: personData['student']['image'],
-                    )).then((_) {
+                    ),
+                    'additionalArgs': args,
+                  },
+                ).then((_) {
                   _resumeBarcodeDetection();
                 });
               } else {

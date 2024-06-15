@@ -68,7 +68,7 @@ class _RegisterAttendanceScreenState extends State<RegisterAttendanceScreen> {
                   icon: Icons.qr_code_scanner,
                   title: 'Escanear código QR',
                   onTap: () {
-                    Navigator.pushNamed(context, Routes.scannerbar);
+                    Navigator.pushNamed(context, Routes.scannerbar, arguments: title);
                   },
                 ),
                 CardButton(
