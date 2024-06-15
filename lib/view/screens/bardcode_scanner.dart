@@ -1,12 +1,39 @@
 import 'dart:convert';
 import 'package:campus_check_app/models/student_model.dart';
 import 'package:campus_check_app/routes/routes.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:campus_check_app/services/storage_service.dart';
+import 'package:campus_check_app/utils/utils.dart';
+import 'package:campus_check_app/view/components/dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:campus_check_app/view/components/camera.dart';
+import 'package:http/http.dart' as http;
+
+final StorageService _storageService = StorageService();
+
+Future<Map<String, dynamic>?> fetchPersonData(String id, String token) async {
+  final url = 'http://192.168.18.36:5050/api/v1/student/$id';
+
+  try {
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to load person data');
+    }
+  } catch (e) {
+    printIfDebug('Error fetching person data: $e');
+    return null;
+  }
+}
 
 class BarcodeScannerView extends StatefulWidget {
   const BarcodeScannerView({super.key});
@@ -59,43 +86,38 @@ class _BarcodeScannerViewState extends State<BarcodeScannerView> {
               _resumeBarcodeDetection();
               return;
             }
-            String responseJson = '';
-            // Simulación de petición a un servidor (API REST)
-            if (barcodeText == '20200133') {
-              responseJson =
-                  await rootBundle.loadString('assets/json/20200133.json');
-            } else if (barcodeText == '20200137') {
-              responseJson =
-                  await rootBundle.loadString('assets/json/20200137.json');
-            } else if (barcodeText == '20200012') {
-              responseJson =
-                  await rootBundle.loadString('assets/json/20200012.json');
-            } else if (barcodeText == '20200054') {
-              responseJson =
-                  await rootBundle.loadString('assets/json/20200054.json');
-            } else if (barcodeText == '20200297') {
-              responseJson =
-                  await rootBundle.loadString('assets/json/20200297.json');
-            } else {
-              _resumeBarcodeDetection();
-              return;
+            String id = barcodeText!.trim();
+
+            if (id.isEmpty || id.length < 8) return;
+
+            String token = await _storageService.getToken() ?? '';
+            var personData = await fetchPersonData(id, token);
+            if (mounted) {
+              if (personData != null) {
+                Navigator.pushNamed(context, Routes.profile,
+                    arguments: StudentModel(
+                      code: personData['student']['cod'],
+                      docID: personData['person']['dni'],
+                      name: personData['person']['firstName'],
+                      faculty: personData['student']['faculty'],
+                      career: personData['student']['career'],
+                      stateEnrollment: 1,
+                      semester: 0,
+                      photoURL: personData['student']['image'],
+                    )).then((_) {
+                  _resumeBarcodeDetection();
+                });
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const DialogBox();
+                  },
+                ).then((_) {
+                  _resumeBarcodeDetection();
+                });
+              }
             }
-            final userData = json.decode(responseJson);
-            setState(() {
-              Navigator.pushNamed(context, Routes.profile,
-                  arguments: StudentModel(
-                    code: userData['code'],
-                    docID: userData['docID'],
-                    name: userData['name'],
-                    faculty: userData['faculty'],
-                    career: userData['career'],
-                    stateEnrollment: userData['stateEnrollment'],
-                    semester: userData['semester'],
-                    photoURL: userData['photoURL'],
-                  )).then((_) {
-                _resumeBarcodeDetection();
-              });
-            });
           }
         }
       }

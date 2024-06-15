@@ -1,8 +1,11 @@
 import 'package:camera/camera.dart';
+import 'package:campus_check_app/view/home.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:campus_check_app/theme/theme.dart';
 import 'package:campus_check_app/utils/utils.dart';
-import 'package:flutter/material.dart';
 import 'package:campus_check_app/routes/routes.dart';
+import 'package:campus_check_app/providers/navigation_provider.dart';
 
 // Global variable for storing the list of cameras available
 List<CameraDescription> cameras = [];
@@ -28,11 +31,15 @@ class MyApp extends StatelessWidget {
     TextTheme textTheme =
         createTextTheme(context, "Albert Sans", "Albert Sans");
     MaterialTheme theme = MaterialTheme(textTheme);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: brightness == Brightness.light ? theme.light() : theme.dark(),
-      initialRoute: Routes.login,
-      onGenerateRoute: Routes.generateRoute,
+    return ChangeNotifierProvider(
+      create: (_) => NavigationProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: brightness == Brightness.light ? theme.light() : theme.dark(),
+        initialRoute: Routes.login,
+        onGenerateRoute: Routes.generateRoute,
+        home: const HomePage(), 
+      ),
     );
   }
 }

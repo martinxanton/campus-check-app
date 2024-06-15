@@ -23,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    _validateLogin();
+    //_validateLogin();
     _loadSavedUserName();
     _loadRememberMe();
   }
@@ -130,7 +130,6 @@ class _LoginPageState extends State<LoginPage> {
         }
       } else {
         if (mounted) {
-          // Show error dialog
           showDialog(
             context: context,
             builder: (context) {
@@ -219,6 +218,7 @@ class _LoginPageState extends State<LoginPage> {
                   errorText: _passwordError,
                   onChanged: (p0) => _validatePassword(),
                 ),
+                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [

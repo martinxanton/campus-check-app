@@ -1,4 +1,5 @@
 import 'package:campus_check_app/view/screens/bardcode_scanner.dart';
+import 'package:campus_check_app/view/screens/detected_user.dart';
 import 'package:campus_check_app/view/screens/face_detector.dart';
 import 'package:campus_check_app/view/home.dart';
 import 'package:campus_check_app/view/screens/login.dart';
@@ -12,6 +13,7 @@ class Routes {
   static const String scannerbar = '/scannerbar';
   static const String scannerface = '/scannerface';
   static const String registeruser = '/register';
+  static const String detecteduser = '/detected';
   static const String login = '/';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -29,10 +31,15 @@ class Routes {
             settings: settings);
       case scannerface:
         return MaterialPageRoute(
-            builder: (context) => const FaceMeshDetectorView(), settings: settings);
+            builder: (context) => const FaceMeshDetectorView(),
+            settings: settings);
       case registeruser:
         return MaterialPageRoute(
             builder: (context) => const RegisterUserScreen(),
+            settings: settings);
+      case detecteduser:
+        return MaterialPageRoute(
+            builder: (context) => const DetectedUserScreen(),
             settings: settings);
       default:
         return MaterialPageRoute(

@@ -2,11 +2,17 @@ import 'dart:convert';
 import 'package:campus_check_app/models/student_model.dart';
 import 'package:campus_check_app/routes/routes.dart';
 import 'package:campus_check_app/utils/utils.dart';
-import 'package:campus_check_app/view/components/card_button.dart';
+import 'package:campus_check_app/view/screens/attendance.dart';
+import 'package:campus_check_app/view/screens/dashboard.dart';
+import 'package:campus_check_app/view/screens/history.dart';
+import 'package:campus_check_app/view/screens/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:campus_check_app/view/components/dialog.dart';
 import 'package:campus_check_app/services/storage_service.dart';
 import 'package:http/http.dart' as http;
+import 'package:material_symbols_icons/material_symbols_icons.dart';
+import 'package:campus_check_app/providers/navigation_provider.dart';
+import 'package:provider/provider.dart';
 
 final StorageService _storageService = StorageService();
 
@@ -41,44 +47,89 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final TextEditingController _idController = TextEditingController();
+  //final TextEditingController _idController = TextEditingController();
+
+  List<Widget> tabItems = [
+    const DashboardScreen(),
+    const AttendanceScreen(),
+    const HistoryScreen(),
+    const SettingsScreen()
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          'Campus Check',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ),
+    return Consumer<NavigationProvider>(
+        builder: (context, navigationProvider, child) {
+      return Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: const Text(
+              'Campus Check',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          /*
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(30),
         child: Column(
           children: [
             const Text(
                 'Para verificar la identidad puedes usar cualquiera de las 2 opciones'),
             const SizedBox(height: 16),
-            CardButton(
-              leftIcon: Icons.badge_outlined,
-              label: 'Escanear carnet / DNI',
-              onTap: () {
-                Navigator.pushNamed(context, Routes.scannerbar);
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CardButton(
+                  icon: Icons.qr_code_scanner,
+                  title: 'Escanear código QR',
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.scannerbar);
+                  },
+                ),
+                CardButton(
+                  icon: Icons.face_outlined,
+                  title: 'Escanear rostro',
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.scannerface);
+                  },
+                ),
+              ],
             ),
-            CardButton(
-              leftIcon: Icons.face_outlined,
-              label: 'Escanear rostro',
-              onTap: () {
-                Navigator.pushNamed(context, Routes.scannerface);
-              },
-            ),
+            const SizedBox(height: 16),
             CodeTextField(controller: _idController),
           ],
         ),
-      ),
-    );
+      ),*/
+          body: tabItems[navigationProvider.selectedIndex],
+          bottomNavigationBar: NavigationBar(
+            selectedIndex: navigationProvider.selectedIndex,
+            onDestinationSelected: (index) {
+              navigationProvider.setIndex(index);
+            },
+            destinations: const [
+              NavigationDestination(
+                selectedIcon: Icon(Symbols.team_dashboard_rounded, fill: 1),
+                icon: Icon(Symbols.team_dashboard_rounded, weight: 500),
+                label: 'Inicio',
+              ),
+              NavigationDestination(
+                selectedIcon: Icon(Symbols.checkbook_rounded, fill: 1),
+                icon: Icon(Symbols.checkbook_rounded, weight: 500),
+                label: 'Asistencia',
+              ),
+              NavigationDestination(
+                selectedIcon: Icon(Symbols.history_rounded, fill: 1),
+                icon: Icon(Symbols.history_rounded, weight: 500),
+                label: 'Historial',
+              ),
+              NavigationDestination(
+                selectedIcon: Icon(Symbols.settings_rounded, fill: 1),
+                icon: Icon(Symbols.settings_rounded, weight: 500),
+                label: 'Ajustes',
+              ),
+            ],
+          ));
+    });
   }
 }
 
@@ -101,29 +152,30 @@ class _CodeTextFieldState extends State<CodeTextField> {
 
     String token = await _storageService.getToken() ?? '';
     var personData = await fetchPersonData(id, token);
-
-    if (personData != null) {
-      Navigator.pushNamed(
-        context,
-        Routes.profile,
-        arguments: StudentModel(
-          code: personData['student']['cod'],
-          docID: personData['person']['dni'],
-          name: personData['person']['firstName'],
-          faculty: personData['student']['faculty'],
-          career: personData['student']['career'],
-          stateEnrollment: 1,
-          semester: 0,
-          photoURL: personData['student']['image'],
-        ),
-      );
-    } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return const DialogBox();
-        },
-      );
+    if (mounted) {
+      if (personData != null) {
+        Navigator.pushNamed(
+          context,
+          Routes.profile,
+          arguments: StudentModel(
+            code: personData['student']['cod'],
+            docID: personData['person']['dni'],
+            name: personData['person']['firstName'],
+            faculty: personData['student']['faculty'],
+            career: personData['student']['career'],
+            stateEnrollment: 1,
+            semester: 0,
+            photoURL: personData['student']['image'],
+          ),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const DialogBox();
+          },
+        );
+      }
     }
   }
 

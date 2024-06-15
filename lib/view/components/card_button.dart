@@ -1,36 +1,43 @@
 import 'package:flutter/material.dart';
 
 class CardButton extends StatelessWidget {
-  final IconData leftIcon;
-  final String label;
-  final VoidCallback onTap;
+  final IconData icon;
+  final String title;
+  final Function onTap;
 
   const CardButton({
     super.key,
-    required this.leftIcon,
-    required this.label,
+    required this.icon,
+    required this.title,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.transparent,
-      margin: const EdgeInsets.only(bottom: 16),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-        side: const BorderSide(
-          width: 1.0,
-        ),
+        borderRadius: BorderRadius.circular(25),
       ),
-      elevation: 0,
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        leading: Icon(leftIcon),
-        title: Text(label,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-        trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 16),
-        onTap: onTap,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(25),
+        onTap: () => onTap(),
+        child: Container(
+          width: 150,
+          height: 150,
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Icon(icon, size: 32),
+              Text(
+                title,
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
