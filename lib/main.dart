@@ -1,5 +1,7 @@
 import 'package:camera/camera.dart';
+import 'package:campus_check_app/services/storage_service.dart';
 import 'package:campus_check_app/view/home.dart';
+import 'package:campus_check_app/view/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:campus_check_app/theme/theme.dart';
@@ -38,8 +40,29 @@ class MyApp extends StatelessWidget {
         theme: brightness == Brightness.light ? theme.light() : theme.dark(),
         initialRoute: Routes.login,
         onGenerateRoute: Routes.generateRoute,
-        home: const HomePage(), 
+        home: FutureBuilder<bool>(
+          future: _checkLoginStatus(), // Verifica el estado de inicio de sesión
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Scaffold(
+                body: Center(child: CircularProgressIndicator()),
+              );
+            } else {
+              if (snapshot.hasData && snapshot.data!) {
+                return const HomePage();
+              } else {
+                return const LoginPage();
+              }
+            }
+          },
+        ),
       ),
     );
+  }
+
+  Future<bool> _checkLoginStatus() async {
+    final storageService = StorageService();
+    final token = await storageService.getToken();
+    return token != null;
   }
 }

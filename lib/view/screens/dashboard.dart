@@ -5,17 +5,19 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Padding(
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          'Campus Check',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: const Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Bienvenido, Seguridad',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20),
             Text(
               'Resumen Diario',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -33,21 +35,9 @@ class DashboardScreen extends StatelessWidget {
                 subtitle: Text('30 estudiantes han salido hoy'),
               ),
             ),
-            SizedBox(height: 20),
-            Text(
-              'Notificaciones',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            Card(
-              child: ListTile(
-                title: Text('Nueva actualización disponible'),
-                subtitle: Text('Versión 2.0 está disponible para su descarga.'),
-              ),
-            ),
           ],
         ),
       ),
     );
   }
 }
-

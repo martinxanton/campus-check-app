@@ -124,7 +124,6 @@ class _LoginPageState extends State<LoginPage> {
 
         await _storageService.saveToken(token);
         if (mounted) {
-          // Navigate to home page
           Navigator.pushNamedAndRemoveUntil(
               context, Routes.home, (route) => false);
         }

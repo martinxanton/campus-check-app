@@ -10,12 +10,12 @@ class StudentModel extends UserModel {
 
   StudentModel({
     required this.code,
-    required String docID,
-    required String name,
+    required super.docID,
+    required super.name,
     required this.faculty,
     required this.career,
     required this.stateEnrollment,
     required this.semester,
     required this.photoURL,
-  }) : super(docID: docID, name: name);
+  });
 }

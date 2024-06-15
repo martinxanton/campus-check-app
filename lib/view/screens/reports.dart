@@ -11,22 +11,22 @@ class ReportsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Generar Reportes',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 // Funcionalidad para generar reporte semanal
               },
-              child: Text('Generar Reporte Semanal'),
+              child: const Text('Generar Reporte Semanal'),
             ),
             ElevatedButton(
               onPressed: () {
                 // Funcionalidad para generar reporte mensual
               },
-              child: Text('Generar Reporte Mensual'),
+              child: const Text('Generar Reporte Mensual'),
             ),
           ],
         ),

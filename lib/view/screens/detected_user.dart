@@ -20,10 +20,10 @@ class _DetectedUserScreenState extends State<DetectedUserScreen> {
         CardButton(icon: Icons.exit_to_app, title: 'Salida', onTap: () {})
       ],
     ),
-    Center(child: Text("1")),
-    Center(child: Text("2")),
-    Center(child: Text("3")),
-    Center(child: Text("4"))
+    const Center(child: Text("1")),
+    const Center(child: Text("2")),
+    const Center(child: Text("3")),
+    const Center(child: Text("4"))
   ];
 
   @override
@@ -63,12 +63,12 @@ class _DetectedUserScreenState extends State<DetectedUserScreen> {
           }),
           items: [
             FlashyTabBarItem(
-              icon: Icon(Icons.home),
-              title: Text('Inicio'),
+              icon: const Icon(Icons.home),
+              title: const Text('Inicio'),
             ),
             FlashyTabBarItem(
-              icon: Icon(Icons.person),
-              title: Text('Perfil'),
+              icon: const Icon(Icons.person),
+              title: const Text('Perfil'),
             ),
           ],
         ));

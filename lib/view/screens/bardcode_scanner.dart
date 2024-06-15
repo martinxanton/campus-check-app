@@ -5,7 +5,6 @@ import 'package:campus_check_app/services/storage_service.dart';
 import 'package:campus_check_app/utils/utils.dart';
 import 'package:campus_check_app/view/components/dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:campus_check_app/view/components/camera.dart';
 import 'package:http/http.dart' as http;

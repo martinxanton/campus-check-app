@@ -7,20 +7,21 @@ class UserProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Obtener el argumento pasado desde la ruta anterior
-    final userModel =
-        ModalRoute.of(context)?.settings.arguments as StudentModel?;
+    final Map<String, dynamic> args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final StudentModel userModel = args['studentModel'] as StudentModel;
+    final String additionalArgs = args['additionalArgs'] as String;
 
     String enrollmentText = '';
     Color enrollmentColor = Colors.red;
 
-    if (userModel?.stateEnrollment == 1) {
+    if (userModel.stateEnrollment == 1) {
       enrollmentText = 'Matriculado';
       enrollmentColor = Colors.green; // Color para el estado 1
-    } else if (userModel?.stateEnrollment == 2) {
+    } else if (userModel.stateEnrollment == 2) {
       enrollmentText = 'Suspendido';
       enrollmentColor = Colors.grey; // Color para el estado 2
-    } else if (userModel?.stateEnrollment == 3) {
+    } else if (userModel.stateEnrollment == 3) {
       enrollmentText = 'Egresado';
       enrollmentColor = Colors.orange; // Color para el estado 3
     } else {
@@ -67,8 +68,7 @@ class UserProfilePage extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: Image(
-                              image: NetworkImage(userModel?.photoURL ??
-                                  'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'),
+                              image: NetworkImage(userModel.photoURL),
                             ),
                           ),
                         ),
@@ -101,7 +101,7 @@ class UserProfilePage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          userModel?.name ?? 'Nombre',
+                          userModel.name,
                           textAlign: TextAlign.left,
                           style: const TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
@@ -127,28 +127,29 @@ class UserProfilePage extends StatelessWidget {
                   Column(
                     children: [
                       _buildUserInfoTile(const Icon(Icons.qr_code_outlined),
-                          'Código de alumno', userModel?.code, context),
+                          'Código de alumno', userModel.code, context),
                       const SizedBox(height: 10),
                       _buildUserInfoTile(
                           const Icon(Icons.perm_identity_outlined),
                           'DNI',
-                          userModel?.docID,
+                          userModel.docID,
                           context),
                       const SizedBox(height: 10),
                       _buildUserInfoTile(const Icon(Icons.school_outlined),
-                          'Facultad', userModel?.faculty, context),
+                          'Facultad', userModel.faculty, context),
                       const SizedBox(height: 10),
                       _buildUserInfoTile(const Icon(Icons.book_outlined),
-                          'Carrera', userModel?.career, context),
+                          'Carrera', userModel.career, context),
                     ],
                   ),
                   Row(
                     children: [
                       Expanded(
                         child: CustomButton(
-                          child: const Text(
-                            'Regristrar entrada',
-                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          child: Text(
+                            'Registrar $additionalArgs',
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 18),
                           ),
                           onPressed: () => Navigator.pop(context),
                         ),

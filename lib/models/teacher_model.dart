@@ -6,8 +6,8 @@ class TeacherModel extends UserModel {
 
   TeacherModel({
     required this.code,
-    required String docID,
-    required String name,
+    required super.docID,
+    required super.name,
     required this.faculty,
-  }) : super(docID: docID, name: name);
+  });
 }
