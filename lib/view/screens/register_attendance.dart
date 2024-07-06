@@ -71,13 +71,6 @@ class _RegisterAttendanceScreenState extends State<RegisterAttendanceScreen> {
                     Navigator.pushNamed(context, Routes.scannerbar, arguments: title);
                   },
                 ),
-                CardButton(
-                  icon: Icons.face_outlined,
-                  title: 'Escanear rostro',
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.scannerface);
-                  },
-                ),
               ],
             ),
             const SizedBox(height: 16),
