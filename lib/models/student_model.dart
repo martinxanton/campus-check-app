@@ -17,5 +17,6 @@ class StudentModel extends UserModel {
     required this.stateEnrollment,
     required this.semester,
     required this.photoURL,
+    required super.id,
   });
 }

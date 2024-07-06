@@ -9,5 +9,6 @@ class TeacherModel extends UserModel {
     required super.docID,
     required super.name,
     required this.faculty,
+    required super.id,
   });
 }

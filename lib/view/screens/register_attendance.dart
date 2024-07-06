@@ -109,6 +109,7 @@ class _CodeTextFieldState extends State<CodeTextField> {
           Routes.profile,
           arguments: {
             'studentModel': StudentModel(
+              id: personData['student']['id'],
               code: personData['student']['cod'],
               docID: personData['person']['dni'],
               name: personData['person']['firstName'],

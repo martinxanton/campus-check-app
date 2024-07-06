@@ -100,6 +100,7 @@ class _BarcodeScannerViewState extends State<BarcodeScannerView> {
                   Routes.profile,
                   arguments: {
                     'studentModel': StudentModel(
+                      id: personData['student']['id'],
                       code: personData['student']['cod'],
                       docID: personData['person']['dni'],
                       name: personData['person']['firstName'],

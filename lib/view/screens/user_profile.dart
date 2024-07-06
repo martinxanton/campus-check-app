@@ -22,7 +22,7 @@ class UserProfilePage extends StatelessWidget {
     void sendPostRequest(type) async {
       final url = Uri.parse('http://192.168.18.36:5050/api/v1/record/');
       String token = await _storageService.getToken() ?? '';
-
+      printIfDebug('Token: $token');
       if (type == 'Entrada') {
         type = 'in';
       } else {
@@ -35,7 +35,7 @@ class UserProfilePage extends StatelessWidget {
       };
 
       final body = jsonEncode({
-        'personId': userModel.code,
+        'personId': userModel.id,
         'type': type, // o 'out'
         'gate': 7,
       });
@@ -45,7 +45,6 @@ class UserProfilePage extends StatelessWidget {
       if (response.statusCode == 200) {
         // Maneja la respuesta exitosa
         printIfDebug('Respuesta: ${response.body}');
-        Navigator.pop(context);
       } else {
         // Maneja el error
         printIfDebug('Error: ${response.statusCode}');
@@ -194,6 +193,7 @@ class UserProfilePage extends StatelessWidget {
                           ),
                           onPressed: () => {
                             sendPostRequest(additionalArgs),
+                            Navigator.pop(context)
                           },
                         ),
                       ),

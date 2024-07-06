@@ -23,6 +23,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
     getRegister();
   }
 
+  String changueName(String name) {
+    if (name == 'in') {
+      return 'Entrada';
+    } else {
+      return 'Salida';
+    }
+  }
+
   void getRegister() async {
     final url = Uri.parse('http://192.168.18.36:5050/api/v1/staff/records');
     String token = await _storageService.getToken() ?? '';
@@ -91,10 +99,15 @@ class _HistoryScreenState extends State<HistoryScreen> {
           itemBuilder: (context, index) {
             var record = records[index];
             printIfDebug('Registroto: $record');
+            if (record.isEmpty) {
+              return const ListTile(
+                title: Text('No hay registros'),
+              );
+            }
             return ListTile(
               leading: Icon(record['icon'], color: record['color']),
               title: Text(
-                  '${record['type']}: ${record['time']} - ${record['personId']}'),
+                  '${changueName(record['type'])}: ${record['time']} - ${record['personId']}'),
               subtitle: Text(record['date']),
             );
           },
