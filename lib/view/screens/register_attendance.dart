@@ -6,6 +6,7 @@ import 'package:campus_check_app/models/student_model.dart';
 import 'package:campus_check_app/routes/routes.dart';
 import 'package:campus_check_app/view/components/dialog.dart';
 import 'package:campus_check_app/services/storage_service.dart';
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
 final StorageService _storageService = StorageService();
@@ -61,17 +62,16 @@ class _RegisterAttendanceScreenState extends State<RegisterAttendanceScreen> {
             const Text(
                 'Para verificar la identidad puedes usar cualquiera de las 2 opciones'),
             const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CardButton(
-                  icon: Icons.qr_code_scanner,
-                  title: 'Escanear código QR',
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.scannerbar, arguments: title);
-                  },
-                ),
-              ],
+            SizedBox(
+              width: double.infinity,
+              child: CardButton(
+                icon: Icons.qr_code_scanner,
+                title: 'Escanear código QR',
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.scannerbar,
+                      arguments: title);
+                },
+              ),
             ),
             const SizedBox(height: 16),
             CodeTextField(controller: _idController),
@@ -116,7 +116,8 @@ class _CodeTextFieldState extends State<CodeTextField> {
               career: personData['student']['career'],
               stateEnrollment: 1,
               semester: 0,
-              photoURL: personData['student']['image'],
+              photoURL:
+                  'https://firebasestorage.googleapis.com/v0/b/campuscheck-unmsm.appspot.com/o/photo-user%2F${personData['student']['cod']}.jpg?alt=media&token=6d1fcb27-1914-4b11-a3f1-9053f203d552',
             ),
             'additionalArgs': args,
           },

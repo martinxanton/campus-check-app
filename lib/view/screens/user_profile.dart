@@ -1,6 +1,13 @@
+import 'dart:convert';
+
 import 'package:campus_check_app/models/student_model.dart';
+import 'package:campus_check_app/utils/utils.dart';
 import 'package:campus_check_app/view/components/button.dart';
 import 'package:flutter/material.dart';
+import 'package:campus_check_app/services/storage_service.dart';
+import 'package:http/http.dart' as http;
+
+final StorageService _storageService = StorageService();
 
 class UserProfilePage extends StatelessWidget {
   const UserProfilePage({super.key});
@@ -11,6 +18,40 @@ class UserProfilePage extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final StudentModel userModel = args['studentModel'] as StudentModel;
     final String additionalArgs = args['additionalArgs'] as String;
+
+    void sendPostRequest(type) async {
+      final url = Uri.parse('http://192.168.18.36:5050/api/v1/record/');
+      String token = await _storageService.getToken() ?? '';
+
+      if (type == 'Entrada') {
+        type = 'in';
+      } else {
+        type = 'out';
+      }
+
+      final headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
+
+      final body = jsonEncode({
+        'personId': userModel.code,
+        'type': type, // o 'out'
+        'gate': 7,
+      });
+
+      final response = await http.post(url, headers: headers, body: body);
+
+      if (response.statusCode == 200) {
+        // Maneja la respuesta exitosa
+        printIfDebug('Respuesta: ${response.body}');
+        Navigator.pop(context);
+      } else {
+        // Maneja el error
+        printIfDebug('Error: ${response.statusCode}');
+        printIfDebug('Respuesta: ${response.body}');
+      }
+    }
 
     String enrollmentText = '';
     Color enrollmentColor = Colors.red;
@@ -151,7 +192,9 @@ class UserProfilePage extends StatelessWidget {
                             style: const TextStyle(
                                 color: Colors.white, fontSize: 18),
                           ),
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () => {
+                            sendPostRequest(additionalArgs),
+                          },
                         ),
                       ),
                     ],
