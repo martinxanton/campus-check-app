@@ -1,18 +1,19 @@
 import 'package:campus_check_app/view/components/card_button.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'package:campus_check_app/utils/config.dart';
 import 'package:campus_check_app/utils/utils.dart';
 import 'package:campus_check_app/models/student_model.dart';
 import 'package:campus_check_app/routes/routes.dart';
 import 'package:campus_check_app/view/components/dialog.dart';
 import 'package:campus_check_app/services/storage_service.dart';
-import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
 final StorageService _storageService = StorageService();
 
 Future<Map<String, dynamic>?> fetchPersonData(String id, String token) async {
-  final url = 'http://192.168.18.36:5050/api/v1/student/$id';
+  final baseUrl = Config.baseUrl;
+  final url = '$baseUrl/student/$id';
 
   try {
     final response = await http.get(

@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:campus_check_app/utils/config.dart';
 import 'package:campus_check_app/models/student_model.dart';
 import 'package:campus_check_app/utils/utils.dart';
 import 'package:campus_check_app/view/components/button.dart';
@@ -20,7 +20,8 @@ class UserProfilePage extends StatelessWidget {
     final String additionalArgs = args['additionalArgs'] as String;
 
     void sendPostRequest(type) async {
-      final url = Uri.parse('http://192.168.18.36:5050/api/v1/record/');
+      final baseUrl = Config.baseUrl;
+      final url = Uri.parse('$baseUrl/record/');
       String token = await _storageService.getToken() ?? '';
       printIfDebug('Token: $token');
       if (type == 'Entrada') {

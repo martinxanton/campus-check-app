@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:campus_check_app/utils/config.dart';
 import 'package:campus_check_app/services/storage_service.dart';
 import 'package:campus_check_app/view/home.dart';
 import 'package:campus_check_app/view/screens/login.dart';
@@ -15,6 +16,7 @@ List<CameraDescription> cameras = [];
 Future<void> main() async {
   // Fetch the available cameras before initializing the app
   try {
+    await Config.load();
     WidgetsFlutterBinding.ensureInitialized();
     cameras = await availableCameras();
   } on CameraException catch (e) {

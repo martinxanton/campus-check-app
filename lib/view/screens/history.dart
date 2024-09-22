@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:campus_check_app/utils/config.dart';
 import 'package:campus_check_app/services/storage_service.dart';
 import 'package:campus_check_app/utils/utils.dart';
 import 'package:http/http.dart' as http;
@@ -32,7 +32,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
   }
 
   void getRegister() async {
-    final url = Uri.parse('http://192.168.18.36:5050/api/v1/staff/records');
+    final baseUrl = Config.baseUrl;
+    final url = Uri.parse('$baseUrl/staff/records');
     String token = await _storageService.getToken() ?? '';
 
     final headers = {

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:campus_check_app/utils/config.dart';
 import 'package:campus_check_app/routes/routes.dart';
 import 'package:campus_check_app/services/storage_service.dart';
 import 'package:campus_check_app/view/components/button.dart';
@@ -107,8 +108,9 @@ class _LoginPageState extends State<LoginPage> {
       });
     }
     if (_usernameError == null && _passwordError == null) {
+      final baseUrl = Config.baseUrl;
       final response = await http.post(
-        Uri.parse('http://192.168.18.36:5050/api/v1/staff/login'),
+        Uri.parse('$baseUrl/staff/login'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
