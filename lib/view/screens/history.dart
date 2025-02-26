@@ -56,15 +56,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
           String type = record['type'];
           IconData icon = type == 'in' ? Icons.check_circle : Icons.exit_to_app;
           Color color = type == 'in' ? Colors.green : Colors.red;
-          String time = DateTime.parse(record['createdAt'])
-              .toLocal()
-              .toString()
-              .split(' ')[1]
-              .substring(0, 5);
-          String date = DateTime.parse(record['createdAt'])
-              .toLocal()
-              .toString()
-              .split(' ')[0];
+          // Obtener fecha y hora tal como vienen
+          String createdAt = record['createdAt'];
+
+          // Dividir la cadena para obtener la hora y la fecha
+          String time =
+              createdAt.split(', ')[1].substring(0, 5); // Obtener solo la hora
+          String date = createdAt.split(', ')[0]; // Obtener solo la fecha
           return {
             'type': type,
             'icon': icon,

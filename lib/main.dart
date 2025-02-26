@@ -13,9 +13,9 @@ import 'package:campus_check_app/providers/navigation_provider.dart';
 List<CameraDescription> cameras = [];
 
 Future<void> main() async {
-  // Fetch the available cameras before initializing the app
+  WidgetsFlutterBinding.ensureInitialized();
+
   try {
-    WidgetsFlutterBinding.ensureInitialized();
     cameras = await availableCameras();
   } on CameraException catch (e) {
     debugPrint('CameraError: ${e.description}');

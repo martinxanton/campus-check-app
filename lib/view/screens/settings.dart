@@ -49,8 +49,7 @@ class SettingsScreen extends StatelessWidget {
             FilledButton(
                 onPressed: () => {
                       storageService.deleteToken(),
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, Routes.login, (route) => false)
+                      Navigator.popAndPushNamed(context, Routes.login)
                     },
                 child: const Text('Cerrar Sesión'))
           ],

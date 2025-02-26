@@ -12,19 +12,35 @@ import 'package:http/http.dart' as http;
 final StorageService _storageService = StorageService();
 
 Future<Map<String, dynamic>?> fetchPersonData(String id, String token) async {
-  final url = 'http://192.168.18.36:5050/api/v1/student/$id';
+  final studentUrl = 'http://192.168.18.36:5050/api/v1/student/$id';
+  final peopleUrl = 'http://192.168.18.36:5050/api/v1/people/$id';
 
   try {
-    final response = await http.get(
-      Uri.parse(url),
+    final studentResponse = await http.get(
+      Uri.parse(studentUrl),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
       },
     );
 
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
+    if (studentResponse.statusCode == 200) {
+      return jsonDecode(studentResponse.body);
+    } else if (studentResponse.statusCode == 404) {
+      // Si no se encuentra en la API de estudiantes, buscar en la API de personas
+      final peopleResponse = await http.get(
+        Uri.parse(peopleUrl),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (peopleResponse.statusCode == 200) {
+        return jsonDecode(peopleResponse.body);
+      } else {
+        throw Exception('Failed to load person data from general API');
+      }
     } else {
       throw Exception('Failed to load person data');
     }
